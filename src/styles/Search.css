@@ -1,0 +1,50 @@
+.listItem {
+  padding: 5px;
+}
+.listItem:hover {
+  padding: 5px;
+  background-color: rgb(219, 224, 224);
+  border-radius: 5px;
+}
+
+/* Mobile screen  */
+@media only screen and (max-width: 800px) {
+  .searchPosition {
+    left: 60px;
+    border-radius: 5px;
+    margin-top: 40px;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .searchPosition {
+    left: 40px;
+    border-radius: 5px;
+    margin-top: 40px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .searchPosition {
+    left: 0px;
+    border-radius: 5px;
+    margin-top: 40px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .searchPosition {
+    left: 12px;
+    border-radius: 5px;
+    margin-top: 40px;
+    width: 364px;
+  }
+}
+
+/* Desktop screen  */
+@media only screen and (min-width: 1024px) {
+  .searchPosition {
+    left: 470px;
+    border-radius: 5px;
+  }
+}
