@@ -8,7 +8,7 @@ function App() {
   return (
     <div>
       <NavBarComponet />
-      {/* <Search /> */}
+      <Search />
       <Routes>
         <Route path="/" element={<HomePage />} />
       </Routes>

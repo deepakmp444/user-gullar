@@ -12,23 +12,14 @@
   z-index: 2;
 }
 
-.search {
-  position: fixed;
-  top: 50px;
-  z-index: 3;
-  background-color: rgb(241, 241, 241);
-}
-
 /* Mobile screen  */
-/* @media only screen and (max-width: 600px) {
-  .search {
-    position: fixed;
-    top: 90px;
-    z-index: 3;
-    background-color: rgb(241, 241, 241);
+@media only screen and (max-width: 600px) {
+  .carousel {
+    position: relative;
+    z-index: 1;
+    margin-top: 90px !important;
   }
-} */
-
+}
 
 .carousel {
   position: relative;

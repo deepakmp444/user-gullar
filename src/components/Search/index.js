@@ -38,14 +38,16 @@ function Search() {
   ];
 
   return (
-    <div className="search searchPosition p-3">
-      {listItem.map((value) => {
-        return (
-          <Link key={value.id} className="link" to="/">
-            <div className="listItem">{value.title}</div>
-          </Link>
-        );
-      })}
+    <div className="center">
+      <div className="search searchPosition p-3">
+        {listItem.map((value) => {
+          return (
+            <Link key={value.id} className="link" to="/">
+              <div className="listItem">{value.title}</div>
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }
