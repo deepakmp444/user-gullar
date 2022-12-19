@@ -1,0 +1,31 @@
+/* Mobile screen  */
+
+@media only screen and (max-width: 600px) {
+  .imgSize {
+    height: 150px;
+  }
+  .cardWidth {
+    width: 150px !important;
+  }
+  .hideSideBar {
+    display: none;
+  }
+  .heightFromTop {
+    margin-top: 40px !important;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .hideInDesktop {
+    display: none;
+  }
+}
+
+.bgFilter {
+  background-color: rgb(223, 226, 226) !important;
+  border-radius: 10px !important;
+  padding: 5px;
+}
+.dropdown-toggle::after {
+  content: none !important;
+}

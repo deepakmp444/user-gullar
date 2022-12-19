@@ -11,13 +11,20 @@ import Tops from "../../assests/Home/TopsLanding.png";
 import ProfessionalShirt from "../../assests/Home/ProfessionalShirtPoster.png";
 import Hoodie from "../../assests/Home/HoodiePoster.png";
 import Shoe from "../../assests/Home/ShoeLanding.png";
+import { Link } from "react-router-dom";
 
 function HomePageCard() {
   return (
     <Container>
       <Row>
         <Col>
-          <img className="mx-auto d-block TwoImgHead" src={WomenJean} alt="" />
+          <Link to="/product">
+            <img
+              className="mx-auto d-block TwoImgHead"
+              src={WomenJean}
+              alt=""
+            />
+          </Link>
         </Col>
         <Col>
           <img src={MenTShirt} className="mx-auto d-block TwoImgHead" alt="" />

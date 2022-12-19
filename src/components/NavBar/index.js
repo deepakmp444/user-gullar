@@ -17,7 +17,7 @@ function NavBarComponet() {
   const [linkClicked, setLinkClicked] = useState(false);
   const [lengthOfSearch, setLengthOfSearch] = useState(0);
   const { product } = useSelector((state) => state.product);
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,7 +32,6 @@ function NavBarComponet() {
     }
   }, [lengthOfSearch, searchedData.length]);
 
-  
   // Gullar heading CSS
   const fontSizeBig = {
     fontSize: "20px",
