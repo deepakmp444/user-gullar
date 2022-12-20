@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Col,
   Container,
@@ -10,12 +10,24 @@ import {
   DropdownButton,
   Dropdown,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import banner from "../assests/product/bannerv1.png";
-import Star from "../components/Icons/Star";
 import WishListIcon from "../components/Icons/WishListIcon";
+import { fetchProductList } from "../store/features/productSlice";
 import "../styles/productList.css";
 function ProductList() {
+  const { name } = useParams();
+  console.log("name:", name);
+  const productList = useSelector((state) => state.product.productList);
+  console.log("productList:", productList);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchProductList(name));
+  }, [dispatch, name]);
+
+  // const
   return (
     <Container>
       <Row style={{ marginTop: "80px" }}>
@@ -47,7 +59,11 @@ function ProductList() {
             </Accordion.Item>
           </Accordion>
         </Col>
-        <Col sm={3} className="fixed-bottom hideInDesktop" style={{ marginTop: "40px" }}>
+        <Col
+          sm={3}
+          className="fixed-bottom hideInDesktop"
+          style={{ marginTop: "40px" }}
+        >
           <div className="d-flex justify-content-around bgFilter">
             <DropdownButton
               variant="outline-secondary"
@@ -82,230 +98,59 @@ function ProductList() {
           </div>
         </Col>
         <Col sm={9} className="heightFromTop">
-          <div className="text-muted" style={{ fontSize: "20px" }}>
-            <strong>
-              <kbd>32</kbd> Items found
-            </strong>
-          </div>
-          <Row className="mt-3 mb-5">
-            <Col className="center mb-3">
-              <div className="cardWidth" style={{ width: "250px" }}>
-                <Link to="/product">
-                  <img
-                    src={banner}
-                    className="rounded imgSize"
-                    height="250"
-                    alt=""
-                  />
-                </Link>
-
-                <div className="d-flex justify-content-between">
-                  <div className="mt-1">
-                    <strong>$29.95</strong>
-                  </div>
-                  <div>
-                    <button className="btn btn-light mt-2 ms-5">
-                      <WishListIcon width="15" height="15" />
-                    </button>
-                  </div>
-                </div>
-                <div style={{ marginTop: "-10px" }}>
-                  <Link className="link" to="/product">
-                    Huetrap
-                  </Link>
-                </div>
-                <div className="text-muted">
-                  Men Beige & Black Typography Printed Sustainable T-shirt
-                </div>
+          {productList.length === 0 ? (
+            <h1>Loading ...</h1>
+          ) : (
+            <>
+              <div className="text-muted" style={{ fontSize: "20px" }}>
+                <strong>
+                  <kbd>{productList.length}</kbd> {name} found
+                </strong>
               </div>
-            </Col>
-            <Col className="center mb-3">
-              <div className="cardWidth" style={{ width: "250px" }}>
-                <Link to="/product">
-                  <img
-                    src={banner}
-                    className="rounded imgSize"
-                    height="250"
-                    alt=""
-                  />
-                </Link>
-
-                <div className="d-flex justify-content-between">
-                  <div className="mt-1">
-                    <strong>$29.95</strong>
-                  </div>
-                  <div>
-                    <button className="btn btn-light mt-2 ms-5">
-                      <WishListIcon width="15" height="15" />
-                    </button>
-                  </div>
-                </div>
-                <div style={{ marginTop: "-10px" }}>
-                  <Link className="link" to="/product">
-                    Huetrap
-                  </Link>
-                </div>
-                <div className="text-muted">
-                  Men Beige & Black Typography Printed Sustainable T-shirt
-                </div>
-              </div>
-            </Col>
-            <Col className="center mb-3">
-              <div className="cardWidth" style={{ width: "250px" }}>
-                <Link to="/product">
-                  <img
-                    src={banner}
-                    className="rounded imgSize"
-                    height="250"
-                    alt=""
-                  />
-                </Link>
-
-                <div className="d-flex justify-content-between">
-                  <div className="mt-1">
-                    <strong>$29.95</strong>
-                  </div>
-                  <div>
-                    <button className="btn btn-light mt-2 ms-5">
-                      <WishListIcon width="15" height="15" />
-                    </button>
-                  </div>
-                </div>
-                <div style={{ marginTop: "-10px" }}>
-                  <Link className="link" to="/product">
-                    Huetrap
-                  </Link>
-                </div>
-                <div className="text-muted">
-                  Men Beige & Black Typography Printed Sustainable T-shirt
-                </div>
-              </div>
-            </Col>
-            <Col className="center mb-3">
-              <div className="cardWidth" style={{ width: "250px" }}>
-                <Link to="/product">
-                  <img
-                    src={banner}
-                    className="rounded imgSize"
-                    height="250"
-                    alt=""
-                  />
-                </Link>
-
-                <div className="d-flex justify-content-between">
-                  <div className="mt-1">
-                    <strong>$29.95</strong>
-                  </div>
-                  <div>
-                    <button className="btn btn-light mt-2 ms-5">
-                      <WishListIcon width="15" height="15" />
-                    </button>
-                  </div>
-                </div>
-                <div style={{ marginTop: "-10px" }}>
-                  <Link className="link" to="/product">
-                    Huetrap
-                  </Link>
-                </div>
-                <div className="text-muted">
-                  Men Beige & Black Typography Printed Sustainable T-shirt
-                </div>
-              </div>
-            </Col>
-            <Col className="center mb-3">
-              <div className="cardWidth" style={{ width: "250px" }}>
-                <Link to="/product">
-                  <img
-                    src={banner}
-                    className="rounded imgSize"
-                    height="250"
-                    alt=""
-                  />
-                </Link>
-
-                <div className="d-flex justify-content-between">
-                  <div className="mt-1">
-                    <strong>$29.95</strong>
-                  </div>
-                  <div>
-                    <button className="btn btn-light mt-2 ms-5">
-                      <WishListIcon width="15" height="15" />
-                    </button>
-                  </div>
-                </div>
-                <div style={{ marginTop: "-10px" }}>
-                  <Link className="link" to="/product">
-                    Huetrap
-                  </Link>
-                </div>
-                <div className="text-muted">
-                  Men Beige & Black Typography Printed Sustainable T-shirt
-                </div>
-              </div>
-            </Col>
-            <Col className="center mb-3">
-              <div className="cardWidth" style={{ width: "250px" }}>
-                <Link to="/product">
-                  <img
-                    src={banner}
-                    className="rounded imgSize"
-                    height="250"
-                    alt=""
-                  />
-                </Link>
-
-                <div className="d-flex justify-content-between">
-                  <div className="mt-1">
-                    <strong>$29.95</strong>
-                  </div>
-                  <div>
-                    <button className="btn btn-light mt-2 ms-5">
-                      <WishListIcon width="15" height="15" />
-                    </button>
-                  </div>
-                </div>
-                <div style={{ marginTop: "-10px" }}>
-                  <Link className="link" to="/product">
-                    Huetrap
-                  </Link>
-                </div>
-                <div className="text-muted">
-                  Men Beige & Black Typography Printed Sustainable T-shirt
-                </div>
-              </div>
-            </Col>
-            <Col className="center mb-3">
-              <div className="cardWidth" style={{ width: "250px" }}>
-                <Link to="/product">
-                  <img
-                    src={banner}
-                    className="rounded imgSize"
-                    height="250"
-                    alt=""
-                  />
-                </Link>
-
-                <div className="d-flex justify-content-between">
-                  <div className="mt-1">
-                    <strong>$29.95</strong>
-                  </div>
-                  <div>
-                    <button className="btn btn-light mt-2 ms-5">
-                      <WishListIcon width="15" height="15" />
-                    </button>
-                  </div>
-                </div>
-                <div style={{ marginTop: "-10px" }}>
-                  <Link className="link" to="/product">
-                    Huetrap
-                  </Link>
-                </div>
-                <div className="text-muted">
-                  Men Beige & Black Typography Printed Sustainable T-shirt
-                </div>
-              </div>
-            </Col>
-          </Row>
+              <Row className="mt-3 mb-5">
+                {productList.map((value) => {
+                  return (
+                    <Col key={value.id} className="center mb-3">
+                      <div className="cardWidth" style={{ width: "250px" }}>
+                        <Link to={`/product/${value.SubCategory}/${value.id}`}>
+                          <img
+                            src={value.ProductPropJson[0].img}
+                            className="rounded imgSize"
+                            height="250"
+                            alt=""
+                          />
+                        </Link>
+                        <div className="d-flex justify-content-between">
+                          <div className="mt-1">
+                            <strong>
+                              {Math.min(
+                                ...value.ProductPropJson.map(
+                                  (product) => product.price
+                                )
+                              )}
+                            </strong>
+                          </div>
+                          <div>
+                            <button className="btn btn-light mt-2 ms-5">
+                              <WishListIcon width="15" height="15" />
+                            </button>
+                          </div>
+                        </div>
+                        <div style={{ marginTop: "-10px" }}>
+                          <Link className="link" to="/product">
+                            {value.productHeading}
+                          </Link>
+                        </div>
+                        <div className="text-muted">
+                          {value.productSubheading}
+                        </div>
+                      </div>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </>
+          )}
         </Col>
       </Row>
     </Container>

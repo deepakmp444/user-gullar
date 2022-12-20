@@ -3,6 +3,7 @@ import axios from "axios";
 import { url } from "../../utils/Constant";
 const initialState = {
   product: [],
+  productList: [],
   productLoading: true,
   error: "",
   singleProduct: {},
@@ -29,6 +30,28 @@ export const fetchProduct = createAsyncThunk("fetchProduct", async (search) => {
     });
 });
 
+// ! Get ProductList
+export const fetchProductList = createAsyncThunk(
+  "fetchProductList",
+  async (search) => {
+    return await axios
+      .get(`${url}/api/v1/product/type/${search}`)
+      .then((res) => res.data.result)
+      .catch((err) => {
+        console.log("err", err);
+        if (err.response.status === 404) {
+          throw Error(err.message);
+        }
+        if (err.response.status === 500) {
+          throw Error(err.message);
+        }
+        if (err.response.status !== 404) {
+          throw Error(err.response.data.message);
+        }
+      });
+  }
+);
+
 const productSlice = createSlice({
   name: "productSlice",
   initialState,
@@ -54,6 +77,24 @@ const productSlice = createSlice({
       state.productLoading = true;
       state.error = action.error.message;
       state.product = [];
+    });
+
+    // ! Get All Product
+    builder.addCase(fetchProductList.pending, (state) => {
+      state.productLoading = true;
+      state.productList = [];
+      state.error = "";
+    });
+
+    builder.addCase(fetchProductList.fulfilled, (state, action) => {
+      state.productLoading = false;
+      state.error = "";
+      state.productList = action.payload;
+    });
+    builder.addCase(fetchProductList.rejected, (state, action) => {
+      state.productLoading = true;
+      state.error = action.error.message;
+      state.productList = [];
     });
   },
 });

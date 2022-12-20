@@ -18,7 +18,7 @@ function HomePageCard() {
     <Container>
       <Row>
         <Col>
-          <Link to="/product">
+          <Link to="/product/jeans">
             <img
               className="mx-auto d-block TwoImgHead"
               src={WomenJean}
