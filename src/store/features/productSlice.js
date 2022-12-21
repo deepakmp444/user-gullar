@@ -52,6 +52,28 @@ export const fetchProductList = createAsyncThunk(
   }
 );
 
+// ! fetchProductById
+export const fetchProductById = createAsyncThunk(
+  "fetchProductById",
+  async (id) => {
+    return await axios
+      .get(`${url}/api/v1/product/${id}`)
+      .then((res) => res.data.product)
+      .catch((err) => {
+        console.log("err", err);
+        if (err.response.status === 404) {
+          throw Error(err.message);
+        }
+        if (err.response.status === 500) {
+          throw Error(err.message);
+        }
+        if (err.response.status !== 404) {
+          throw Error(err.response.data.message);
+        }
+      });
+  }
+);
+
 const productSlice = createSlice({
   name: "productSlice",
   initialState,
@@ -61,7 +83,7 @@ const productSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // ! Get All Product
+    // ! Get searched Product
     builder.addCase(fetchProduct.pending, (state) => {
       state.productLoading = true;
       state.product = [];
@@ -71,6 +93,7 @@ const productSlice = createSlice({
     builder.addCase(fetchProduct.fulfilled, (state, action) => {
       state.productLoading = false;
       state.error = "";
+      console.log("action.payload:", action.payload);
       state.product = action.payload;
     });
     builder.addCase(fetchProduct.rejected, (state, action) => {
@@ -95,6 +118,24 @@ const productSlice = createSlice({
       state.productLoading = true;
       state.error = action.error.message;
       state.productList = [];
+    });
+
+    // ! Single Product
+    builder.addCase(fetchProductById.pending, (state) => {
+      state.productLoading = true;
+      state.singleProduct = {};
+      state.error = "";
+    });
+
+    builder.addCase(fetchProductById.fulfilled, (state, action) => {
+      state.productLoading = false;
+      state.error = "";
+      state.singleProduct = action.payload;
+    });
+    builder.addCase(fetchProductById.rejected, (state, action) => {
+      state.productLoading = true;
+      state.error = action.error.message;
+      state.singleProduct = {};
     });
   },
 });

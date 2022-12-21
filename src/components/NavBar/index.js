@@ -53,7 +53,7 @@ function NavBarComponet() {
         <Row className="p-2 bg-light">
           <Col>
             <Link style={fontSizeBig} className="link" to="/">
-              Gullar
+              <strong>Gullar</strong>
             </Link>
           </Col>
           <Col className="navBarMobile">
@@ -73,7 +73,7 @@ function NavBarComponet() {
                 </Link>
               </Button>
               <Button variant="light">
-                <Link className="link" to="/cart">
+                <Link className="link" to="/wishlist">
                   <WishListIcon />
                 </Link>
               </Button>
@@ -113,7 +113,7 @@ function NavBarComponet() {
                 <Link
                   key={value.id}
                   className="link"
-                  to="/"
+                  to={`/product/${value.SubCategory}/${value.id}`}
                   onClick={() => handleSearchData(value.productSubheading)}
                 >
                   <div className="listItem">{value.productSubheading}</div>
