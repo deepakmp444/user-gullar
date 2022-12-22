@@ -6,6 +6,8 @@ import store from "./store";
 import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/global.css";
+import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

@@ -11,12 +11,14 @@ import { useEffect, useState } from "react";
 import { fetchProduct } from "../../store/features/productSlice";
 import { useDispatch, useSelector } from "react-redux";
 import "../../styles/Search.css";
+import { userLogout } from "../../store/features/userSlice";
 
 function NavBarComponet() {
   const [searchedData, setSearchedData] = useState("");
   const [linkClicked, setLinkClicked] = useState(false);
   const [lengthOfSearch, setLengthOfSearch] = useState(0);
   const { product } = useSelector((state) => state.product);
+  const { userProfile } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -47,6 +49,11 @@ function NavBarComponet() {
     setLinkClicked(true);
   };
 
+  const handleLogout = () => {
+    dispatch(userLogout());
+    window.location.reload();
+  };
+  
   return (
     <>
       <Container fluid className="navBarIndex">
@@ -79,12 +86,41 @@ function NavBarComponet() {
               </Button>
               <Dropdown>
                 <Dropdown.Toggle variant="light" id="dropdown-basic">
+                  {userProfile?.name}
                   <PeopleIcon />
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item>Sign In</Dropdown.Item>
-                  <Dropdown.Item>Another action</Dropdown.Item>
-                  <Dropdown.Item>Something else</Dropdown.Item>
+                  {Object.keys(userProfile).length === 0 &&
+                  userProfile.constructor === Object ? (
+                    <>
+                      <Dropdown.Item>
+                        <Link className="link" to="/login">
+                          Sign In
+                        </Link>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <Link className="link" to="/create-account">
+                          Create Account
+                        </Link>
+                      </Dropdown.Item>
+                    </>
+                  ) : (
+                    <>
+                      <Dropdown.Item>
+                        <Link className="link" to="/login">
+                          Settings
+                        </Link>
+                      </Dropdown.Item>
+                      <Dropdown.Item>
+                        <Link className="link" to="/create-account">
+                          Your orders
+                        </Link>
+                      </Dropdown.Item>
+                      <Dropdown.Item onClick={handleLogout}>
+                        Logout
+                      </Dropdown.Item>
+                    </>
+                  )}
                 </Dropdown.Menu>
               </Dropdown>
             </div>

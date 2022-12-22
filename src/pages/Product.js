@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ImageGallery from "react-image-gallery";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
@@ -18,15 +18,13 @@ function Product() {
     (state) => state.product
   );
   const { id } = useParams();
+  const navigate = useNavigate();
   const [qty, setQty] = useState(1);
   const [productPrice, setProductPrice] = useState("");
   const [productMRP, setProductMRP] = useState("");
   const [productSize, setProductSize] = useState("");
-  console.log("productSize:", productSize);
   const [productColor, setProductColor] = useState("");
-  console.log("productColor:", productColor);
-  console.log('singleProduct:', singleProduct)
-
+  const { userProfile } = useSelector((state) => state.user);
   const [totalQty, setTotalQty] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
@@ -75,6 +73,31 @@ function Product() {
     setProductPrice(selectedProduct.price);
     setProductMRP(selectedProduct.mrp);
     setTotalQty(selectedProduct.stock);
+  };
+
+  const addToCart = () => {
+    if (
+      Object.keys(userProfile).length === 0 &&
+      userProfile.constructor === Object
+    ) {
+      navigate("/login");
+    }
+  };
+  const saveWishlist = () => {
+    if (
+      Object.keys(userProfile).length === 0 &&
+      userProfile.constructor === Object
+    ) {
+      navigate("/login");
+    }
+  };
+  const butNow = () => {
+    if (
+      Object.keys(userProfile).length === 0 &&
+      userProfile.constructor === Object
+    ) {
+      navigate("/login");
+    }
   };
 
   return (
@@ -195,10 +218,15 @@ function Product() {
               </div>
               <div>
                 <div style={{ marginTop: "20px" }}>
-                  <Button type="button" className="" variant="warning">
+                  <Button type="button" variant="warning" onClick={butNow}>
                     Buy Now
                   </Button>
-                  <Button className="ms-2" type="button" variant="success">
+                  <Button
+                    className="ms-2"
+                    type="button"
+                    variant="success"
+                    onClick={addToCart}
+                  >
                     <div className="d-flex">
                       <div>
                         <CartIcon height="16" width="16" />
@@ -208,7 +236,12 @@ function Product() {
                       </div>
                     </div>
                   </Button>
-                  <Button className="ms-2" type="button" variant="secondary">
+                  <Button
+                    className="ms-2"
+                    type="button"
+                    variant="secondary"
+                    onClick={saveWishlist}
+                  >
                     <div className="d-flex">
                       <div>
                         <WishListIcon height="16" width="16" />
