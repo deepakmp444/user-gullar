@@ -22,7 +22,7 @@ function CreateAccount() {
 
   useEffect(() => {
     if (accountCreated) {
-      navigate("/login");
+      navigate("/");
     }
   }, [accountCreated, navigate]);
 

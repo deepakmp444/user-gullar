@@ -1,7 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 import NavBarComponet from "./components/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
+import BuyNow from "./pages/BuyNow";
+import CancelOrder from "./pages/CancelOrder";
 import Cart from "./pages/Cart";
+import ConfirmOrder from "./pages/ConfirmOrder";
 import CreateAccount from "./pages/CreateAccount";
 import ForgotPassword from "./pages/ForgetPassword";
 import HomePage from "./pages/HomePage";
@@ -19,6 +22,9 @@ function App() {
           {/* <Route element={<ProtectedRoute />}> */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/buynow" element={<BuyNow />} />
+          <Route path="/confirm-order" element={<ConfirmOrder />} />
+          <Route path="/cancel-order" element={<CancelOrder />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/create-account" element={<CreateAccount />} />
           <Route path="/cart" element={<Cart />} />

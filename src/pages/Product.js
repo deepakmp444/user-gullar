@@ -17,9 +17,11 @@ function Product() {
   const { singleProduct, productLoading } = useSelector(
     (state) => state.product
   );
+
   const { id } = useParams();
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
+
   const [productPrice, setProductPrice] = useState("");
   const [productMRP, setProductMRP] = useState("");
   const [productSize, setProductSize] = useState("");
@@ -61,7 +63,7 @@ function Product() {
 
   const addItem = () => {
     if (totalQty > qty) {
-      setQty(qty + 1);
+      setQty((pre) => pre + 1);
     }
   };
 
@@ -81,6 +83,11 @@ function Product() {
       userProfile.constructor === Object
     ) {
       navigate("/login");
+    } else {
+      console.log("singleProduct.id:", singleProduct.id);
+      console.log("qtyTop:", qty);
+      console.log("productSize:", productSize);
+      console.log("productColor:", productColor);
     }
   };
   const saveWishlist = () => {
@@ -89,14 +96,26 @@ function Product() {
       userProfile.constructor === Object
     ) {
       navigate("/login");
+    } else {
+      console.log("singleProduct.id:", singleProduct.id);
+      console.log("qtyTop:", qty);
+      console.log("productSize:", productSize);
+      console.log("productColor:", productColor);
     }
   };
-  const butNow = () => {
+
+  const buyNow = () => {
     if (
       Object.keys(userProfile).length === 0 &&
       userProfile.constructor === Object
     ) {
       navigate("/login");
+    } else {
+      navigate("/buynow");
+      console.log("singleProduct.id:", singleProduct.id);
+      console.log("qtyTop:", qty);
+      console.log("productSize:", productSize);
+      console.log("productColor:", productColor);
     }
   };
 
@@ -218,7 +237,7 @@ function Product() {
               </div>
               <div>
                 <div style={{ marginTop: "20px" }}>
-                  <Button type="button" variant="warning" onClick={butNow}>
+                  <Button type="button" variant="warning" onClick={buyNow}>
                     Buy Now
                   </Button>
                   <Button
