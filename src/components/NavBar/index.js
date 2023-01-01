@@ -107,12 +107,12 @@ function NavBarComponet() {
                   ) : (
                     <>
                       <Dropdown.Item>
-                        <Link className="link" to="/login">
+                        <Link className="link" to="/">
                           Settings
                         </Link>
                       </Dropdown.Item>
                       <Dropdown.Item>
-                        <Link className="link" to="/create-account">
+                        <Link className="link" to="/order-history">
                           Your orders
                         </Link>
                       </Dropdown.Item>

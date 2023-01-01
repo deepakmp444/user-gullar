@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -7,44 +8,91 @@ import {
   InputGroup,
   Row,
 } from "react-bootstrap";
+import { useCookies } from "react-cookie";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import AddressCard from "../components/Address/AddressCard";
+import AddressForm from "../components/Address/AddressForm";
+import { fetchAddress } from "../store/features/addressSlice";
 
 function BuyNow() {
+  const { buyNowProduct } = useSelector((state) => state.order);
+  console.log("buyNowProduct:", buyNowProduct);
+  const { userProfile } = useSelector((state) => state.user);
+  const { address, orderAddress } = useSelector((state) => state.address);
+  const [cookies, setCookie] = useCookies(["userOrder"]);
+  console.log("cookies:", cookies);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (buyNowProduct.length === 0) {
+      navigate(-1);
+    }
+  }, [buyNowProduct.length, navigate]);
+
+  useEffect(() => {
+    dispatch(fetchAddress());
+  }, [dispatch]);
+
   const backToShop = () => {
     navigate(-1);
   };
 
+  const totalPrice = buyNowProduct.reduce(
+    (accumulator, currentValue) => accumulator + currentValue.price,
+    0
+  );
+
+  const totalMRP = buyNowProduct.reduce(
+    (accumulator, currentValue) => accumulator + currentValue.mrp,
+    0
+  );
+
+  const discounts = totalMRP - totalPrice;
+
   const handleClick = async () => {
+    const areTruthy = Object.values(orderAddress).every((value) => value);
+
+    if (!areTruthy) {
+      console.log("Please Enter address");
+      return alert("Please Enter address");
+    }
+
+    const totalPrice = await buyNowProduct.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.price,
+      0
+    );
+
+    setCookie("orderAddress", orderAddress, { path: "/" });
+    setCookie("buyNowProduct", buyNowProduct, { path: "/" });
+
     const response = await fetch("http://localhost:9000/api/v1/orders/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ amount: 500 }),
+      body: JSON.stringify({ amount: totalPrice }),
     });
 
-    // console
     const order = await response.json();
     const KEY = process.env.REACT_APP_RAZORPAY_KEY;
-    console.log('process.REACT_APP_RAZORPAY_KEY:', process.env.REACT_APP_RAZORPAY_KEY)
-    console.log("orderID", order);
     const options = {
       key: KEY, // Enter the Key ID generated from the Dashboard
       amount: order.response.amount,
       currency: "INR",
-      name: "Deepak",
+      name: userProfile?.name,
       description: "Test Transaction",
       image: "https://avatars.githubusercontent.com/u/48873989?v=4",
       order_id: order.response.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-      callback_url: "http://localhost:9000/api/v1/paymentvarification",
+      callback_url: "http://localhost:9000/api/v1/order-verification",
       prefill: {
-        name: "MR D",
-        email: "MR@example.com",
-        contact: "9999999999",
+        name: orderAddress.name,
+        email: orderAddress.email,
+        contact: orderAddress.phone,
       },
       notes: {
-        address: "Razorpay Corporate Office",
+        address: `${orderAddress.landmark},${orderAddress.city},${orderAddress.state},${orderAddress.pincode}`,
       },
       theme: {
         color: "#3399cc",
@@ -62,79 +110,17 @@ function BuyNow() {
             <div className="mb-3 text-success">
               <strong>Billing Address</strong>
             </div>
-            <Form>
-              <Row>
-                <Col>
-                  <Form.Group className="mb-3" controlId="formBasicName">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" placeholder="Enter name" />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group className="mb-3" controlId="formBasicPhone">
-                    <Form.Label>Phone</Form.Label>
-                    <Form.Control
-                      type="number"
-                      placeholder="Enter phone number"
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Group className="mb-3" controlId="formBasicState">
-                    <Form.Label>State</Form.Label>
-                    <Form.Control type="text" placeholder="Enter state" />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group className="mb-3" controlId="formBasicCity">
-                    <Form.Label>City</Form.Label>
-                    <Form.Control type="text" placeholder="Enter city" />
-                  </Form.Group>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Group className="mb-3" controlId="formBasicLandmark">
-                    <Form.Label>Landmark</Form.Label>
-                    <Form.Control type="text" placeholder="Enter landmark" />
-                  </Form.Group>
-                </Col>
-                <Col>
-                  <Form.Group className="mb-3" controlId="formBasicPincode">
-                    <Form.Label>Pincode</Form.Label>
-                    <Form.Control type="number" placeholder="Enter pincode" />
-                  </Form.Group>
-                </Col>
-              </Row>
-            </Form>
+            <AddressForm />
           </div>
           <div>
             <h5 className="text-center">OR</h5>
           </div>
-          <Card className="p-4 mb-5" style={{ backgroundColor: "#f2f2f2" }}>
-            <div className="d-flex">
-              <div>
-                <Form.Check type="checkbox" />
-              </div>
-              <div className="ms-2">
-                <span>Name</span>
-                <span className="ms-2">Phone</span>
-                <div>
-                  <span>State</span>
-                  <span className="ms-2">City</span>
-                </div>
-                <div>
-                  <span>Landmark</span>
-                  <span className="ms-2">Pincode</span>
-                </div>
-              </div>
-            </div>
-          </Card>
+          {address.map((value, index) => {
+            return <AddressCard key={index} value={value} />;
+          })}
         </Col>
         <Col sm={4}>
-          <Card className="p-4 mb-5" style={{ backgroundColor: "#f2f2f2" }}>
+          <Card className="p-4 mb-2" style={{ backgroundColor: "#f2f2f2" }}>
             <div>Have coupon?</div>
             <div>
               <InputGroup className="mb-3">
@@ -147,31 +133,39 @@ function BuyNow() {
               </InputGroup>
             </div>
           </Card>
-          <Card className="p-4" style={{ backgroundColor: "#f2f2f2" }}>
+          <Card className="p-4 mb-5" style={{ backgroundColor: "#f2f2f2" }}>
             <div className="d-flex justify-content-between">
               <div>Price:</div>
               <div>
-                <strong>$329.00</strong>
+                <strong className="text-primary">Rs.{totalPrice}</strong>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between">
+              <div>MRP:</div>
+              <div>
+                <strong className="text-danger">
+                  <del>Rs.{totalMRP}</del>
+                </strong>
               </div>
             </div>
             <div className="d-flex justify-content-between">
               <div>Discount:</div>
               <div>
-                <strong>$329.00</strong>
+                <strong className="text-success">Rs.{discounts}</strong>
               </div>
             </div>
             <hr />
             <div className="d-flex justify-content-between">
               <div>Total:</div>
               <div>
-                <strong>$329.00</strong>{" "}
+                <strong>Rs.{totalPrice}</strong>{" "}
               </div>
             </div>
             <div className="d-grid gap-2 mt-4">
               <Button variant="primary" size="sm" onClick={handleClick}>
                 Make Purchase
               </Button>
-              <Button variant="secondary" size="sm" onClick={backToShop}>
+              <Button variant="outline-primary" size="sm" onClick={backToShop}>
                 Back to Shop
               </Button>
             </div>

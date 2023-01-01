@@ -12,23 +12,25 @@ import { fetchProductById } from "../store/features/productSlice";
 import ProductSpecification from "../components/ProductSpecs/ProductSpecification";
 import ProductReturnPolicy from "../components/ProductSpecs/ProductReturnPolicy";
 import ProductReview from "../components/ProductSpecs/ProductReview";
+import { gotoProductBucket } from "../store/features/orderSlice";
 
 function Product() {
-  const { singleProduct, productLoading } = useSelector(
-    (state) => state.product
-  );
-
   const { id } = useParams();
+  const { singleProduct } = useSelector((state) => state.product);
+  const { buyNowProduct } = useSelector((state) => state.order);
+  console.log("buyNowProduct:", buyNowProduct);
   const navigate = useNavigate();
-  const [qty, setQty] = useState(1);
+  const dispatch = useDispatch();
 
+  const [qty, setQty] = useState(1);
+  const [imgUrl, setImgUrl] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productMRP, setProductMRP] = useState("");
   const [productSize, setProductSize] = useState("");
   const [productColor, setProductColor] = useState("");
   const { userProfile } = useSelector((state) => state.user);
   const [totalQty, setTotalQty] = useState("");
-  const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchProductById(id));
   }, [dispatch, id]);
@@ -44,14 +46,16 @@ function Product() {
         (min, p) => (p.price < min ? p.price : min),
         singleProduct.ProductPropJson[0].price
       );
-      const { mrp, stock, size, color } = singleProduct.ProductPropJson.find(
-        (product) => product.price === minPrice
-      );
+      const { mrp, stock, size, color, img } =
+        singleProduct.ProductPropJson.find(
+          (product) => product.price === minPrice
+        );
       setProductPrice(minPrice);
       setTotalQty(stock);
       setProductMRP(mrp);
       setProductSize(size);
       setProductColor(color);
+      setImgUrl(img);
     }
   }, [singleProduct]);
 
@@ -90,6 +94,7 @@ function Product() {
       console.log("productColor:", productColor);
     }
   };
+
   const saveWishlist = () => {
     if (
       Object.keys(userProfile).length === 0 &&
@@ -111,11 +116,24 @@ function Product() {
     ) {
       navigate("/login");
     } else {
+      const totalPrice = productPrice * qty;
+      const totalMRP = productMRP * qty;
+      dispatch(
+        gotoProductBucket([
+          {
+            imgUrl: imgUrl,
+            productId: singleProduct.id,
+            heading: singleProduct.productHeading,
+            subHeading: singleProduct.productSubheading,
+            qty: qty,
+            size: productSize,
+            color: productColor,
+            price: totalPrice,
+            mrp: totalMRP,
+          },
+        ])
+      );
       navigate("/buynow");
-      console.log("singleProduct.id:", singleProduct.id);
-      console.log("qtyTop:", qty);
-      console.log("productSize:", productSize);
-      console.log("productColor:", productColor);
     }
   };
 
@@ -123,7 +141,7 @@ function Product() {
     <Container style={{ marginTop: "70px" }}>
       {Object.keys(singleProduct).length === 0 &&
       singleProduct.constructor === Object ? (
-        <h1>Loading...</h1>
+        <h1 className="text-center">Loading...</h1>
       ) : (
         <>
           <Row>
