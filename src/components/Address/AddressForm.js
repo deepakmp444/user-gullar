@@ -9,13 +9,12 @@ import {
 } from "../../store/features/addressSlice";
 import { validRegex } from "../../utils/Validation";
 
-function AddressForm() {
-  const { orderAddress, updateAddress, updateAddressId, updateAddressDB } = useSelector(
-    (state) => state.address
-  );
+function AddressForm({ hideButton = "false" }) {
+  const { orderAddress, updateAddress, updateAddressId, updateAddressDB } =
+    useSelector((state) => state.address);
 
   const dispatch = useDispatch();
-  console.log('updateAddressDB:', updateAddressDB)
+  console.log("updateAddressDB:", updateAddressDB);
   const [formAddress, setFormAddress] = useState({
     name: "",
     phone: "",
@@ -206,14 +205,21 @@ function AddressForm() {
           </Form.Group>
         </Col>
       </Row>
-      {updateAddress ? (
-        <button className="btn btn-warning mb-4" onClick={updateUserAddress}>
-          Update
-        </button>
-      ) : (
-        <button className="btn btn-primary mb-4" onClick={addAddress}>
-          Submit
-        </button>
+      {hideButton === "false" && (
+        <div>
+          {updateAddress ? (
+            <button
+              className="btn btn-warning mb-4"
+              onClick={updateUserAddress}
+            >
+              Update
+            </button>
+          ) : (
+            <button className="btn btn-primary mb-4" onClick={addAddress}>
+              Submit
+            </button>
+          )}
+        </div>
       )}
     </Form>
   );

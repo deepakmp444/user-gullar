@@ -110,7 +110,7 @@ function BuyNow() {
             <div className="mb-3 text-success">
               <strong>Billing Address</strong>
             </div>
-            <AddressForm />
+            <AddressForm hideButton="true" />
           </div>
           <div>
             <h5 className="text-center">OR</h5>
