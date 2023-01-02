@@ -6,73 +6,49 @@ const initialState = {
   buyNowProduct: [],
   orderList: [],
   error: "",
+  orderCancel: false,
+  addressCreated: false,
 };
 
 // ! Get All Orders
-export const fetchAllOrder = createAsyncThunk(
-  "fetchAllOrder",
-  async (search) => {
-    return await axios
-      .get(`${url}/api/v1/orders`)
-      .then((res) => res.data.allOrders)
-      .catch((err) => {
-        console.log("err", err);
-        if (err.response.status === 404) {
-          throw Error(err.message);
-        }
-        if (err.response.status === 500) {
-          throw Error(err.message);
-        }
-        if (err.response.status !== 404) {
-          throw Error(err.response.data.message);
-        }
-      });
-  }
-);
+export const fetchAllOrder = createAsyncThunk("fetchAllOrder", async () => {
+  return await axios
+    .get(`${url}/api/v1/orders`)
+    .then((res) => res.data.allOrders)
+    .catch((err) => {
+      console.log("err", err);
+      if (err.response.status === 404) {
+        throw Error(err.message);
+      }
+      if (err.response.status === 500) {
+        throw Error(err.message);
+      }
+      if (err.response.status !== 404) {
+        throw Error(err.response.data.message);
+      }
+    });
+});
 
-// // ! Get ProductList
-// export const fetchProductList = createAsyncThunk(
-//   "fetchProductList",
-//   async (search) => {
-//     return await axios
-//       .get(`${url}/api/v1/product/type/${search}`)
-//       .then((res) => res.data.result)
-//       .catch((err) => {
-//         console.log("err", err);
-//         if (err.response.status === 404) {
-//           throw Error(err.message);
-//         }
-//         if (err.response.status === 500) {
-//           throw Error(err.message);
-//         }
-//         if (err.response.status !== 404) {
-//           throw Error(err.response.data.message);
-//         }
-//       });
-//   }
-// );
+
 
 // // ! fetchProductById
-// export const fetchProductById = createAsyncThunk(
-//   "fetchProductById",
-//   async (id) => {
-//     return await axios
-//       .get(`${url}/api/v1/product/${id}`)
-//       .then((res) => res.data.product)
-//       .catch((err) => {
-//         console.log("err", err);
-//         if (err.response.status === 404) {
-//           throw Error(err.message);
-//         }
-//         if (err.response.status === 500) {
-//           throw Error(err.message);
-//         }
-//         if (err.response.status !== 404) {
-//           throw Error(err.response.data.message);
-//         }
-//       });
-//   }
-// );
+export const orderCancel = createAsyncThunk("orderCancel", async ({ id }) => {
+  return await axios
+    .put(`${url}/api/v1/cancelorder/${id}`)
+    .then((res) => res.data.status)
+    .catch((err) => {
+      console.log("err", err);
+      if (err.response.status === 404) {
+        throw Error(err.message);
+      }
+      if (err.response.status === 500) {
+        throw Error(err.message);
+      }
+      if (err.response.status !== 404) {
+        throw Error(err.response.data.message);
+      }
+    });
+});
 
 const orderSlice = createSlice({
   name: "orderSlice",
@@ -99,41 +75,23 @@ const orderSlice = createSlice({
       state.orderList = [];
     });
 
-    //     // ! Get All Product
-    //     builder.addCase(fetchProductList.pending, (state) => {
-    //       state.productLoading = true;
-    //       state.productList = [];
-    //       state.error = "";
-    //     });
+    // ! Order Cancel
+    builder.addCase(orderCancel.pending, (state) => {
+      state.orderCancel = false;
+      state.error = "";
+    });
 
-    //     builder.addCase(fetchProductList.fulfilled, (state, action) => {
-    //       state.productLoading = false;
-    //       state.error = "";
-    //       state.productList = action.payload;
-    //     });
-    //     builder.addCase(fetchProductList.rejected, (state, action) => {
-    //       state.productLoading = true;
-    //       state.error = action.error.message;
-    //       state.productList = [];
-    //     });
+    builder.addCase(orderCancel.fulfilled, (state, action) => {
+      state.orderCancel = true;
+      state.error = "";
+    });
+    builder.addCase(orderCancel.rejected, (state, action) => {
+      state.orderCancel = false;
+      state.error = action.error.message;
+    });
 
-    //     // ! Single Product
-    //     builder.addCase(fetchProductById.pending, (state) => {
-    //       state.productLoading = true;
-    //       state.singleProduct = {};
-    //       state.error = "";
-    //     });
+   
 
-    //     builder.addCase(fetchProductById.fulfilled, (state, action) => {
-    //       state.productLoading = false;
-    //       state.error = "";
-    //       state.singleProduct = action.payload;
-    //     });
-    //     builder.addCase(fetchProductById.rejected, (state, action) => {
-    //       state.productLoading = true;
-    //       state.error = action.error.message;
-    //       state.singleProduct = {};
-    //     });
   },
 });
 

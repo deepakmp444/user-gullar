@@ -116,7 +116,9 @@ function BuyNow() {
             <h5 className="text-center">OR</h5>
           </div>
           {address.map((value, index) => {
-            return <AddressCard key={index} value={value} />;
+            return (
+              <AddressCard key={index} value={value} deleteButton="false" />
+            );
           })}
         </Col>
         <Col sm={4}>

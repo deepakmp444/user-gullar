@@ -53,7 +53,7 @@ function NavBarComponet() {
     dispatch(userLogout());
     window.location.reload();
   };
-  
+
   return (
     <>
       <Container fluid className="navBarIndex">
@@ -107,7 +107,7 @@ function NavBarComponet() {
                   ) : (
                     <>
                       <Dropdown.Item>
-                        <Link className="link" to="/">
+                        <Link className="link" to="/setting">
                           Settings
                         </Link>
                       </Dropdown.Item>

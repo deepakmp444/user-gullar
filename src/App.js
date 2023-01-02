@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import OrderHistory from "./pages/OrderHistory";
 import Product from "./pages/Product";
 import ProductList from "./pages/ProductList";
+import Setting from "./pages/Setting";
 import Wishlist from "./pages/Wishlist";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/buynow" element={<BuyNow />} />
           <Route path="/order-history" element={<OrderHistory />} />
+          <Route path="/setting" element={<Setting />} />
           <Route path="/confirm-order" element={<ConfirmOrder />} />
           <Route path="/cancel-order" element={<CancelOrder />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />

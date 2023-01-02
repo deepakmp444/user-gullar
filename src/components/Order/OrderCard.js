@@ -1,7 +1,15 @@
 import React from "react";
 import { Badge, Button, Card, Col, Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import img1 from "../../assests/product/bannerv1.png";
+import { orderCancel } from "../../store/features/orderSlice";
 function OrderCard({ value }) {
+  const dispatch = useDispatch();
+
+  const userOrderCancel = (id) => {
+    dispatch(orderCancel({ id }));
+  };
+
   return (
     <Card className="p-3 mb-3 bg-light">
       <Row>
@@ -13,16 +21,22 @@ function OrderCard({ value }) {
           <div className="text-muted">Date: {value.createdAt}</div>
         </Col>
         <Col sm={6}>
-          <Button variant="outline-danger" size="sm">
+          <Button
+            variant="outline-danger"
+            size="sm"
+            onClick={() => userOrderCancel(value.id)}
+            disabled={value.orderStatus === "Cancel" ? true : false}
+          >
             Cancel order
-          </Button>{" "}
+          </Button>
           <Button
             variant="primary"
             size="sm"
-            disabled={`value.trackingId === null`}
+            className="ms-2"
+            disabled={value.trackingId === null ? true : false}
           >
             Track order
-          </Button>{" "}
+          </Button>
         </Col>
       </Row>
       <hr />
@@ -55,7 +69,7 @@ function OrderCard({ value }) {
       <Row>
         {value.ProductOrderList.map((value, index) => {
           return (
-            <Col sm={4} className="mb-2">
+            <Col sm={4} className="mb-2" key={index}>
               <div className="d-flex">
                 <div className="d-flex align-items-center">
                   <img
