@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import AddressCard from "../components/Address/AddressCard";
 import AddressForm from "../components/Address/AddressForm";
 import Profile from "../components/Profile/Profile";
-import { addUserAddress, fetchAddress } from "../store/features/addressSlice";
+import { fetchAddress } from "../store/features/addressSlice";
 
 function Setting() {
   const [tab, setTab] = useState("profile");
-  const { address, updateAddress, orderAddress, addressCreated } = useSelector(
-    (state) => state.address
-  );
-  console.log("addressCreated:", addressCreated);
+  const { address } = useSelector((state) => state.address);
 
   const dispatch = useDispatch();
 

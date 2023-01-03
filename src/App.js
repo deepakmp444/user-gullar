@@ -9,6 +9,7 @@ import CreateAccount from "./pages/CreateAccount";
 import ForgotPassword from "./pages/ForgetPassword";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
+import NewPassword from "./pages/NewPassword";
 import OrderHistory from "./pages/OrderHistory";
 import PageNotFound from "./pages/PageNotFound";
 import Product from "./pages/Product";
@@ -33,6 +34,7 @@ function App() {
           <Route path="/confirm-order" element={<ConfirmOrder />} />
           <Route path="/cancel-order" element={<CancelOrder />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/newpassword/:id" element={<NewPassword />} />
           <Route path="/create-account" element={<CreateAccount />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} />

@@ -13,6 +13,10 @@ const initialState = {
   accountVarifiedError: "",
   userProfileChangeMessage: "",
   userProfileChangeMessageError: "",
+  forgotPasswordInfo: "",
+  forgotPasswordInfoError: "",
+  PasswordChangeInfo: "",
+  PasswordChangeInfoError: "",
 };
 
 // ! User create account
@@ -197,6 +201,56 @@ export const userNamePasswordUpdate = createAsyncThunk(
   }
 );
 
+// !  User Forgot Password
+export const userForgotPassword = createAsyncThunk(
+  "userForgotPassword",
+  async ({ email }) => {
+    return await axios
+      .post(`${url}/api/v1/forgotpassword`, {
+        email,
+      })
+      .then((res) => res.data.message)
+      .catch((err) => {
+        console.log("err", err);
+        if (err.response.status === 404) {
+          throw Error(err.message);
+        }
+        if (err.response.status === 500) {
+          throw Error(err.message);
+        }
+        if (err.response.status !== 404) {
+          throw Error(err.response.data.message);
+        }
+      });
+  }
+);
+
+// !  User  Password Changed
+export const userPasswordChange = createAsyncThunk(
+  "userPasswordChange",
+  async ({ password, repassword, id }) => {
+    return await axios
+      .put(`${url}/api/v1/password-change`, {
+        password,
+        repassword,
+        id,
+      })
+      .then((res) => res.data.message)
+      .catch((err) => {
+        console.log("err", err);
+        if (err.response.status === 404) {
+          throw Error(err.message);
+        }
+        if (err.response.status === 500) {
+          throw Error(err.message);
+        }
+        if (err.response.status !== 404) {
+          throw Error(err.response.data.message);
+        }
+      });
+  }
+);
+
 const userSlice = createSlice({
   name: "productSlice",
   initialState,
@@ -204,6 +258,10 @@ const userSlice = createSlice({
     clearUpdatedInfoAndError: (state, action) => {
       state.userProfileChangeMessage = "";
       state.userProfileChangeMessageError = "";
+    },
+    clearForgotPasswordInfoAndError: (state, action) => {
+      state.forgotPasswordInfo = "";
+      state.forgotPasswordInfoError = "";
     },
   },
   extraReducers: (builder) => {
@@ -325,8 +383,37 @@ const userSlice = createSlice({
       state.userProfileChangeMessage = "";
       state.userProfileChangeMessageError = action.error.message;
     });
+
+    // ! Forgot password
+    builder.addCase(userForgotPassword.pending, (state) => {
+      state.forgotPasswordInfoError = "";
+      state.forgotPasswordInfo = "";
+    });
+    builder.addCase(userForgotPassword.fulfilled, (state, action) => {
+      state.forgotPasswordInfoError = "";
+      state.forgotPasswordInfo = action.payload;
+    });
+    builder.addCase(userForgotPassword.rejected, (state, action) => {
+      state.forgotPasswordInfoError = action.error.message;
+      state.forgotPasswordInfo = "";
+    });
+
+    // ! password Change
+    builder.addCase(userPasswordChange.pending, (state) => {
+      state.PasswordChangeInfoError = "";
+      state.PasswordChangeInfo = "";
+    });
+    builder.addCase(userPasswordChange.fulfilled, (state, action) => {
+      state.PasswordChangeInfoError = "";
+      state.PasswordChangeInfo = action.payload;
+    });
+    builder.addCase(userPasswordChange.rejected, (state, action) => {
+      state.PasswordChangeInfoError = action.error.message;
+      state.PasswordChangeInfo = "";
+    });
   },
 });
 
 export default userSlice.reducer;
-export const { clearUpdatedInfoAndError } = userSlice.actions;
+export const { clearUpdatedInfoAndError, clearForgotPasswordInfoAndError } =
+  userSlice.actions;
