@@ -10,9 +10,11 @@ import ForgotPassword from "./pages/ForgetPassword";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import OrderHistory from "./pages/OrderHistory";
+import PageNotFound from "./pages/PageNotFound";
 import Product from "./pages/Product";
 import ProductList from "./pages/ProductList";
 import Setting from "./pages/Setting";
+import UserEmailVerify from "./pages/UserEmailVerify";
 import Wishlist from "./pages/Wishlist";
 
 function App() {
@@ -23,6 +25,7 @@ function App() {
         <Routes>
           {/* <Route element={<ProtectedRoute />}> */}
           <Route path="/" element={<HomePage />} />
+          <Route path="/account-verify" element={<UserEmailVerify />} />
           <Route path="/login" element={<Login />} />
           <Route path="/buynow" element={<BuyNow />} />
           <Route path="/order-history" element={<OrderHistory />} />
@@ -35,6 +38,7 @@ function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/product/:name" element={<ProductList />} />
           <Route path="/product/:name/:id" element={<Product />} />
+          <Route path="*" element={<PageNotFound />} />
           {/* </Route> */}
         </Routes>
       </ProtectedRoute>

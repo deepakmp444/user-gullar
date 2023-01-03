@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import {
   Button,
   Card,
@@ -17,11 +17,9 @@ import { fetchAddress } from "../store/features/addressSlice";
 
 function BuyNow() {
   const { buyNowProduct } = useSelector((state) => state.order);
-  console.log("buyNowProduct:", buyNowProduct);
   const { userProfile } = useSelector((state) => state.user);
   const { address, orderAddress } = useSelector((state) => state.address);
   const [cookies, setCookie] = useCookies(["userOrder"]);
-  console.log("cookies:", cookies);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -55,7 +53,6 @@ function BuyNow() {
     const areTruthy = Object.values(orderAddress).every((value) => value);
 
     if (!areTruthy) {
-      console.log("Please Enter address");
       return alert("Please Enter address");
     }
 
