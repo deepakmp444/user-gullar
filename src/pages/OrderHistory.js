@@ -6,7 +6,6 @@ import OrderCard from "../components/Order/OrderCard";
 import { fetchAllOrder, orderCancel } from "../store/features/orderSlice";
 function OrderHistory() {
   const { orderList, orderCancel } = useSelector((state) => state.order);
-  console.log('orderCancel:', orderCancel)
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -130,6 +130,7 @@ function Product() {
             color: productColor,
             price: totalPrice,
             mrp: totalMRP,
+            reviewStatus: false,
           },
         ])
       );

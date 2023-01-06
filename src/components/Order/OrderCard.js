@@ -1,13 +1,112 @@
-import React from "react";
-import { Badge, Button, Card, Col, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import img1 from "../../assests/product/bannerv1.png";
+import React, { useEffect, useState } from "react";
+import { Badge, Button, Card, Col, Modal, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { orderCancel } from "../../store/features/orderSlice";
+import {
+  addUserReview,
+  clearGetReviewFromOrderProductUser,
+  deleteOrdeReview,
+  getReviewFromOrderProductUser,
+  updateUserReview,
+} from "../../store/features/reviewSlice";
+import ReviewModalForm from "./ReviewModalForm";
+
 function OrderCard({ value }) {
+  const {
+    updateReviewStatus,
+    updateReviewStatusError,
+    createdReviewStatus,
+    createdReviewStatusError,
+    deleteReviewStatus,
+    deleteReviewStatusError,
+    singleReviewForUpdate,
+  } = useSelector((state) => state.review);
+
+  const { userProfile } = useSelector((state) => state.user);
+  console.log("singleReviewForUpdate:", singleReviewForUpdate);
+
+  const [show, setShow] = useState(false);
+  const [userRating, setUserRating] = useState("");
+  const [userDescriptions, setUserDescriptions] = useState("");
+  const [productId, setProductId] = useState("");
+
+  // console.log('singleReviewForUpdate:', singleReviewForUpdate)
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (singleReviewForUpdate[0]) {
+      setUserRating(singleReviewForUpdate[0].rating);
+      setUserDescriptions(singleReviewForUpdate[0].descriptions);
+    }
+  }, [singleReviewForUpdate]);
+
+  useEffect(() => {
+    if (singleReviewForUpdate.length === 0) {
+      setUserRating("");
+      setUserDescriptions("");
+    }
+  }, [singleReviewForUpdate]);
+
+  useEffect(() => {
+    if (deleteReviewStatus || createdReviewStatus || updateReviewStatus) {
+      window.location.reload();
+    }
+  }, [deleteReviewStatus, createdReviewStatus, updateReviewStatus]);
 
   const userOrderCancel = (id) => {
     dispatch(orderCancel({ id }));
+  };
+
+  const handleClose = () => {
+    setShow(false);
+    dispatch(clearGetReviewFromOrderProductUser());
+  };
+  const handleShow = () => setShow(true);
+
+  const handleDeleteReview = (reviewId) => {
+    setShow(false);
+    dispatch(deleteOrdeReview({ id: reviewId }));
+  };
+
+  const writeReview = () => {
+    console.log("writeReview");
+    dispatch(
+      addUserReview({
+        name: userProfile.name,
+        rating: userRating,
+        descriptions: userDescriptions,
+        productId: productId,
+        orderId: value.id,
+        userId: userProfile.id,
+      })
+    );
+  };
+
+  const showModal = (productId) => {
+    setShow(true);
+    setProductId(productId);
+    dispatch(
+      getReviewFromOrderProductUser({
+        productId,
+        orderId: value.id,
+        userId: userProfile.id,
+      })
+    );
+    // console.log('productId:', productId)
+    // console.log('userProfile.id:', userProfile.id)
+    // console.log('value.id:', value.id)
+  };
+
+  const showModalUpdateReview = (id) => {
+    setShow(true);
+    dispatch(
+      updateUserReview({
+        rating: parseFloat(userRating),
+        descriptions: userDescriptions,
+        id,
+      })
+    );
   };
 
   return (
@@ -67,87 +166,86 @@ function OrderCard({ value }) {
       </Row>
       <hr />
       <Row>
-        {value.ProductOrderList.map((value, index) => {
+        {value.ProductOrderList.map((productValue, index) => {
           return (
             <Col sm={4} className="mb-2" key={index}>
               <div className="d-flex">
                 <div className="d-flex align-items-center">
                   <img
                     className="rounded"
-                    src={value.imgUrl}
+                    src={productValue.imgUrl}
                     height="50"
                     width="50"
                     alt="loading"
                   />
                 </div>
                 <div className="ms-3">
-                  <div>{value.heading}</div>
-                  <div>{value.subHeading}</div>
+                  <div>{productValue.heading}</div>
+                  <div>{productValue.subHeading}</div>
                   <div className="d-flex">
-                    <div>{value.color}</div>
-                    <div className="ms-2">{value.size}</div>
+                    <div>{productValue.color}</div>
+                    <div className="ms-2">{productValue.size}</div>
                   </div>
                   <div className="d-flex">
-                    <div>QTY: {value.qty}</div>
-                    <div className="ms-2">Price: {value.price}</div>
+                    <div>QTY: {productValue.qty}</div>
+                    <div className="ms-2">Price: {productValue.price}</div>
                   </div>
                 </div>
               </div>
+              <Button
+                variant="primary"
+                size="sm"
+                className="ms-2 mt-1"
+                onClick={() => showModal(productValue.productId)}
+                // disabled={value.trackingId === null ? true : false}
+              >
+                Your review
+              </Button>
             </Col>
           );
         })}
-
-        {/* <Col sm={4} className="mb-2">
-          <div className="d-flex">
-            <div className="d-flex align-items-center">
-              <img
-                className="rounded"
-                src={img1}
-                height="50"
-                width="50"
-                alt="loading"
-              />
-            </div>
-            <div className="ms-3">
-              <div>Heading</div>
-              <div>subHeadinhg</div>
-              <div className="d-flex">
-                <div>Color</div>
-                <div className="ms-2">Size</div>
-              </div>
-              <div className="d-flex">
-                <div>Qty</div>
-                <div className="ms-2">Price</div>
-              </div>
-            </div>
-          </div>
-        </Col>
-        <Col sm={4} className="mb-2">
-          <div className="d-flex">
-            <div className="d-flex align-items-center">
-              <img
-                className="rounded"
-                src={img1}
-                height="50"
-                width="50"
-                alt="loading"
-              />
-            </div>
-            <div className="ms-3">
-              <div>Heading</div>
-              <div>subHeadinhg</div>
-              <div className="d-flex">
-                <div>Color</div>
-                <div className="ms-2">Size</div>
-              </div>
-              <div className="d-flex">
-                <div>Qty</div>
-                <div className="ms-2">Price</div>
-              </div>
-            </div>
-          </div>
-        </Col> */}
       </Row>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Review</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ReviewModalForm
+            setUserRating={setUserRating}
+            setUserDescriptions={setUserDescriptions}
+            userRating={userRating}
+            userDescriptions={userDescriptions}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          {singleReviewForUpdate[0] && (
+            <Button
+              variant="danger"
+              onClick={() => handleDeleteReview(singleReviewForUpdate[0].id)}
+            >
+              Delete
+            </Button>
+          )}
+          {singleReviewForUpdate[0] && (
+            <Button
+              variant="warning"
+              onClick={() => showModalUpdateReview(singleReviewForUpdate[0].id)}
+            >
+              Update
+            </Button>
+          )}
+          {!singleReviewForUpdate[0] && (
+            <Button variant="primary" onClick={writeReview}>
+              Save
+            </Button>
+          )}
+        </Modal.Footer>
+      </Modal>
     </Card>
   );
 }
