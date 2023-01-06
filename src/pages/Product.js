@@ -316,7 +316,7 @@ function Product() {
                 </div>
               </Tab>
               <Tab eventKey="review" title="Review">
-                <ProductReview />
+                <ProductReview id={id} />
               </Tab>
             </Tabs>
           </Row>

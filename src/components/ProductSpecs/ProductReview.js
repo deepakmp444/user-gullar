@@ -1,37 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchReview } from "../../store/features/reviewSlice";
 import Star from "../Icons/Star";
 
-function ProductReview() {
+function ProductReview({ id }) {
+  const { review } = useSelector((state) => state.review);
+  console.log("review:", review);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchReview({ id }));
+  }, [dispatch, id]);
+
   return (
     <div>
-      <Card>
-        <div className="p-3">
-          <h5>Deepak ✅ </h5>
-          <div className="d-flex mb-2" style={{ marginTop: "-5px" }}>
-            <div>
-              <Star />
-              <Star />
-              <Star />
-              <Star />
+      {review.map((value, index) => {
+        return (
+          <Card>
+            <div className="p-3">
+              <h5>{value.name} ✅ </h5>
+              <div className="d-flex mb-2" style={{ marginTop: "-5px" }}>
+                <div>
+                  <Star />
+                </div>
+                <div className="ms-2" style={{ marginTop: "2px" }}>
+                  {value.rating}
+                </div>
+              </div>
+              <p>{value.descriptions}</p>
             </div>
-            <div className="ms-2" style={{ marginTop: "2px" }}>
-              4
-            </div>
-          </div>
-          <p>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </p>
-        </div>
-      </Card>
+          </Card>
+        );
+      })}
     </div>
   );
 }
