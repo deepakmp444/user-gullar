@@ -16,7 +16,7 @@ function ProductReview({ id }) {
     <div>
       {review.map((value, index) => {
         return (
-          <Card>
+          <Card key={index}>
             <div className="p-3">
               <h5>{value.name} ✅ </h5>
               <div className="d-flex mb-2" style={{ marginTop: "-5px" }}>

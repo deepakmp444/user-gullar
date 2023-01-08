@@ -75,13 +75,13 @@ function NavBarComponet() {
           <Col>
             <div className="d-flex justify-content-end">
               <Button variant="light">
-                <Link className="link" to="/cart">
-                  <CartIcon />
+                <Link className="link" to="/wishlist">
+                  <WishListIcon />
                 </Link>
               </Button>
               <Button variant="light">
-                <Link className="link" to="/wishlist">
-                  <WishListIcon />
+                <Link className="link" to="/cart">
+                  <CartIcon />
                 </Link>
               </Button>
               <Dropdown>

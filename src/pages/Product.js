@@ -3,6 +3,7 @@ import ImageGallery from "react-image-gallery";
 import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
+import Modal from "react-bootstrap/Modal";
 import Star from "../components/Icons/Star";
 import CartIcon from "../components/Icons/CartIcon";
 import WishListIcon from "../components/Icons/WishListIcon";
@@ -13,23 +14,32 @@ import ProductSpecification from "../components/ProductSpecs/ProductSpecificatio
 import ProductReturnPolicy from "../components/ProductSpecs/ProductReturnPolicy";
 import ProductReview from "../components/ProductSpecs/ProductReview";
 import { gotoProductBucket } from "../store/features/orderSlice";
+import {
+  addUserWishlist,
+  clearWishlistMessageReducer,
+} from "../store/features/wishlistSlice";
 
 function Product() {
-  const { id } = useParams();
+  const { name, id } = useParams();
   const { singleProduct } = useSelector((state) => state.product);
   const { buyNowProduct } = useSelector((state) => state.order);
+  const { userProfile } = useSelector((state) => state.user);
+  const { wishlistCreatedMessage, wishlistCreatedMessageStatus } = useSelector(
+    (state) => state.wishlist
+  );
+  console.log("wishlistCreatedMessage:", wishlistCreatedMessage);
   console.log("buyNowProduct:", buyNowProduct);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const [qty, setQty] = useState(1);
   const [imgUrl, setImgUrl] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [productMRP, setProductMRP] = useState("");
   const [productSize, setProductSize] = useState("");
   const [productColor, setProductColor] = useState("");
-  const { userProfile } = useSelector((state) => state.user);
   const [totalQty, setTotalQty] = useState("");
+
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchProductById(id));
@@ -58,6 +68,13 @@ function Product() {
       setImgUrl(img);
     }
   }, [singleProduct]);
+
+
+  useEffect(() => {
+    if (wishlistCreatedMessageStatus) {
+      setShowModal(true)
+    }
+  }, [wishlistCreatedMessageStatus]);
 
   const removeItem = () => {
     if (qty > 1) {
@@ -102,10 +119,20 @@ function Product() {
     ) {
       navigate("/login");
     } else {
-      console.log("singleProduct.id:", singleProduct.id);
-      console.log("qtyTop:", qty);
-      console.log("productSize:", productSize);
-      console.log("productColor:", productColor);
+      dispatch(
+        addUserWishlist({
+          productId: singleProduct.id,
+          productType: name,
+          imgUrl,
+          heading: singleProduct.productHeading,
+          subHeading: singleProduct.productSubheading,
+          qty,
+          price: productPrice,
+          color: productColor,
+          size: productSize,
+          mrp: productMRP,
+        })
+      );
     }
   };
 
@@ -136,6 +163,11 @@ function Product() {
       );
       navigate("/buynow");
     }
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    dispatch(clearWishlistMessageReducer())
   };
 
   return (
@@ -320,6 +352,15 @@ function Product() {
               </Tab>
             </Tabs>
           </Row>
+
+          <Modal show={showModal} centered onHide={handleCloseModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Wishlist</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p className="">{wishlistCreatedMessage}</p>
+            </Modal.Body>
+          </Modal>
         </>
       )}
     </Container>

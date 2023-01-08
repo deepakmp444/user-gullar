@@ -1,9 +1,139 @@
-import React from 'react'
-
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Modal,
+  Row,
+} from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import image1 from "../assests/product/bannerv1.png";
+import {
+  deleteUserWishlist,
+  fetchWishlist,
+} from "../store/features/wishlistSlice";
 function Wishlist() {
+  const { wishlist, deletedWishlistStatus } = useSelector(
+    (state) => state.wishlist
+  );
+  const [showDelete, setShowDelete] = useState(false);
+
+  console.log("wishlist:", wishlist);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchWishlist());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (deletedWishlistStatus) {
+      setShowDelete(false);
+      window.location.reload();
+    }
+  }, [deletedWishlistStatus]);
+
+  const handleCloseDelete = () => {
+    setShowDelete(false);
+  };
+
+  const confirmDelete = (id) => {
+    dispatch(deleteUserWishlist({ id }));
+  };
+
+  const handleShowDelete = () => {
+    setShowDelete(true);
+  };
+
   return (
-    <div style={{ marginTop: "300px" }}>Wishlist</div>
-  )
+    <Container style={{ marginTop: "70px" }}>
+      <Row>
+        <Col sm={2}></Col>
+        <Col sm={8}>
+          <h3 className="mb-3">Your wishlist cart</h3>
+
+          {wishlist.map((value) => {
+            return (
+              <Card className="bg-light p-2 mb-3" key={value.id}>
+                <Row>
+                  <Row>
+                    <Col sm={2}>
+                      <Link to={`/product/${value.productType}/${value.productId}`}>
+                        <img
+                          src={value.imgUrl}
+                          className="rounded mx-auto d-block rounded"
+                          alt="sss"
+                          height={100}
+                          width={100}
+                        />
+                      </Link>
+                    </Col>
+                    <Col sm={8} className="mt-2">
+                      <Link
+                        className="link"
+                        to={`/product/${value.productType}/${value.productId}`}
+                      >
+                        {value.heading}
+                      </Link>
+                      <div>{value.subHeading}</div>
+                      <div className="text-muted">
+                        Price:
+                        <span>
+                          <strong> Rs.{value.price} &nbsp;</strong>
+                        </span>
+                        Color: <strong> {value.color}</strong>, Size:{" "}
+                        <strong> {value.size} &nbsp;</strong>
+                      </div>
+                    </Col>
+                    <Col sm={2}>
+                      <div className="d-grid gap-2 mt-3">
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={handleShowDelete}
+                        >
+                          Remove
+                        </Button>
+                        <Button variant="success" size="sm">
+                          Add to Cart
+                        </Button>
+                      </div>
+                    </Col>
+                  </Row>
+                </Row>
+                <Modal show={showDelete} centered onHide={handleCloseDelete}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Delete</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <p className="">Are you sure</p>
+                    <div className="d-flex justify-content-end mt-3">
+                      <Button
+                        variant="light"
+                        className="me-2"
+                        onClick={handleCloseDelete}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => confirmDelete(value.id)}
+                      >
+                        Confirm Delete
+                      </Button>
+                    </div>
+                  </Modal.Body>
+                </Modal>
+              </Card>
+            );
+          })}
+        </Col>
+        <Col sm={2}></Col>
+      </Row>
+    </Container>
+  );
 }
 
-export default Wishlist
+export default Wishlist;
