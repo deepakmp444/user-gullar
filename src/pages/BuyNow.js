@@ -1,4 +1,4 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
 import {
   Button,
   Card,
@@ -17,11 +17,29 @@ import { fetchAddress } from "../store/features/addressSlice";
 
 function BuyNow() {
   const { buyNowProduct } = useSelector((state) => state.order);
+  console.log("buyNowProduct:", buyNowProduct);
   const { userProfile } = useSelector((state) => state.user);
   const { address, orderAddress } = useSelector((state) => state.address);
   const [cookies, setCookie] = useCookies(["userOrder"]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const backToShop = () => {
+    navigate(-1);
+  };
+
+  const totalPrice = buyNowProduct.reduce(
+    (accumulator, currentValue) =>
+      accumulator + currentValue.price * currentValue.qty,
+    0
+  );
+  const totalMRP = buyNowProduct.reduce(
+    (accumulator, currentValue) =>
+      accumulator + currentValue.mrp * currentValue.qty,
+    0
+  );
+
+  const discounts = totalMRP - totalPrice;
 
   useEffect(() => {
     if (buyNowProduct.length === 0) {
@@ -33,21 +51,11 @@ function BuyNow() {
     dispatch(fetchAddress());
   }, [dispatch]);
 
-  const backToShop = () => {
-    navigate(-1);
-  };
-
-  const totalPrice = buyNowProduct.reduce(
-    (accumulator, currentValue) => accumulator + currentValue.price,
-    0
-  );
-
-  const totalMRP = buyNowProduct.reduce(
-    (accumulator, currentValue) => accumulator + currentValue.mrp,
-    0
-  );
-
-  const discounts = totalMRP - totalPrice;
+  useEffect(() => {
+    if (totalPrice === 0) {
+      navigate(-1);
+    }
+  }, [navigate, totalPrice]);
 
   const handleClick = async () => {
     const areTruthy = Object.values(orderAddress).every((value) => value);

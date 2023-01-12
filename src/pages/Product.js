@@ -18,6 +18,10 @@ import {
   addUserWishlist,
   clearWishlistMessageReducer,
 } from "../store/features/wishlistSlice";
+import {
+  addUserCart,
+  clearCartMessageReducer,
+} from "../store/features/cartSlice";
 
 function Product() {
   const { name, id } = useParams();
@@ -27,8 +31,12 @@ function Product() {
   const { wishlistCreatedMessage, wishlistCreatedMessageStatus } = useSelector(
     (state) => state.wishlist
   );
-  console.log("wishlistCreatedMessage:", wishlistCreatedMessage);
-  console.log("buyNowProduct:", buyNowProduct);
+  const { cartCreatedMessageStatus, cartCreatedMessage } = useSelector(
+    (state) => state.cartList
+  );
+
+  console.log("cartCreatedMessage:", cartCreatedMessage);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [qty, setQty] = useState(1);
@@ -38,6 +46,8 @@ function Product() {
   const [productSize, setProductSize] = useState("");
   const [productColor, setProductColor] = useState("");
   const [totalQty, setTotalQty] = useState("");
+
+  const [cartWishlistModal, setCartWishlistModal] = useState("");
 
   const [showModal, setShowModal] = useState(false);
 
@@ -69,12 +79,11 @@ function Product() {
     }
   }, [singleProduct]);
 
-
   useEffect(() => {
-    if (wishlistCreatedMessageStatus) {
-      setShowModal(true)
+    if (wishlistCreatedMessageStatus || cartCreatedMessageStatus) {
+      setShowModal(true);
     }
-  }, [wishlistCreatedMessageStatus]);
+  }, [wishlistCreatedMessageStatus, cartCreatedMessageStatus]);
 
   const removeItem = () => {
     if (qty > 1) {
@@ -105,10 +114,21 @@ function Product() {
     ) {
       navigate("/login");
     } else {
-      console.log("singleProduct.id:", singleProduct.id);
-      console.log("qtyTop:", qty);
-      console.log("productSize:", productSize);
-      console.log("productColor:", productColor);
+      setCartWishlistModal("cart");
+      dispatch(
+        addUserCart({
+          productId: singleProduct.id,
+          productType: name,
+          imgUrl,
+          heading: singleProduct.productHeading,
+          subHeading: singleProduct.productSubheading,
+          qty,
+          price: productPrice,
+          color: productColor,
+          size: productSize,
+          mrp: productMRP,
+        })
+      );
     }
   };
 
@@ -119,6 +139,7 @@ function Product() {
     ) {
       navigate("/login");
     } else {
+      setCartWishlistModal("wishlist");
       dispatch(
         addUserWishlist({
           productId: singleProduct.id,
@@ -167,7 +188,8 @@ function Product() {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    dispatch(clearWishlistMessageReducer())
+    dispatch(clearWishlistMessageReducer());
+    dispatch(clearCartMessageReducer());
   };
 
   return (
@@ -355,10 +377,16 @@ function Product() {
 
           <Modal show={showModal} centered onHide={handleCloseModal}>
             <Modal.Header closeButton>
-              <Modal.Title>Wishlist</Modal.Title>
+              <Modal.Title>
+                {cartWishlistModal === "wishlist" ? "Wishlist" : "Cart"}
+              </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <p className="">{wishlistCreatedMessage}</p>
+              <p>
+                {cartWishlistModal === "wishlist"
+                  ? wishlistCreatedMessage
+                  : cartCreatedMessage}
+              </p>
             </Modal.Body>
           </Modal>
         </>
