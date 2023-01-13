@@ -49,7 +49,7 @@ function Wishlist() {
         <Col sm={2}></Col>
         <Col sm={8}>
           <h3 className="mb-3">Your wishlist cart</h3>
-
+          {wishlist.length === 0 && <h5 className="text-center">No product added in your Wishlist</h5>}
           {wishlist.map((value) => {
             return (
               <Card className="bg-light p-2 mb-3" key={value.id}>

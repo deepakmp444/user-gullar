@@ -159,8 +159,6 @@ function Product() {
     ) {
       navigate("/login");
     } else {
-      const totalPrice = productPrice * qty;
-      const totalMRP = productMRP * qty;
       dispatch(
         gotoProductBucket([
           {
@@ -171,8 +169,8 @@ function Product() {
             qty: qty,
             size: productSize,
             color: productColor,
-            price: totalPrice,
-            mrp: totalMRP,
+            price: productPrice,
+            mrp: productMRP,
             reviewStatus: false,
           },
         ])

@@ -25,6 +25,8 @@ function Cart() {
   const { cartList, deletedCartStatus } = useSelector(
     (state) => state.cartList
   );
+  console.log('cartList:', cartList)
+
   const [showDelete, setShowDelete] = useState(false);
   const dispatch = useDispatch();
 
@@ -82,7 +84,7 @@ function Cart() {
         <Col sm={2}></Col>
         <Col sm={8}>
           <h3 className="mb-3">Your cart list</h3>
-          {cartList.length === 0 && <h1 className="text-center">Loading...</h1>}
+          {cartList.length === 0 && <h6 className="text-center">No product added in your cart</h6>}
           {cartList.map((value) => {
             return (
               <Card className="bg-light p-2 mb-3" key={value.id}>
