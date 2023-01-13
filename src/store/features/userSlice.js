@@ -294,7 +294,7 @@ const userSlice = createSlice({
     builder.addCase(loginAccount.rejected, (state, action) => {
       state.profileLoading = true;
       state.userProfile = {};
-      state.error = action.error.message;
+      state.error = "please Login"
     });
 
     // ! get Profile
@@ -311,7 +311,7 @@ const userSlice = createSlice({
     builder.addCase(getUserProfile.rejected, (state, action) => {
       state.profileLoading = true;
       state.userProfile = {};
-      state.error = action.error.message;
+      state.error = "please Login";
     });
 
     // ! userLogout

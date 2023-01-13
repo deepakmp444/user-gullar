@@ -1,19 +1,17 @@
-import { Col, Dropdown, Row } from "react-bootstrap";
+import { Container, Col, Dropdown, Row, Button, Form } from "react-bootstrap";
 import "../../styles/NavBar.css";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
+import "../../styles/Search.css";
+import { Link, useNavigate } from "react-router-dom";
 import CartIcon from "../Icons/CartIcon";
 import PeopleIcon from "../Icons/PeopleIcon";
 import WishListIcon from "../Icons/WishListIcon";
 import { useEffect, useState } from "react";
 import { fetchProduct } from "../../store/features/productSlice";
 import { useDispatch, useSelector } from "react-redux";
-import "../../styles/Search.css";
 import { userLogout } from "../../store/features/userSlice";
 
 function NavBarComponet() {
+  const navigate = useNavigate();
   const [searchedData, setSearchedData] = useState("");
   const [linkClicked, setLinkClicked] = useState(false);
   const [lengthOfSearch, setLengthOfSearch] = useState(0);
@@ -48,6 +46,24 @@ function NavBarComponet() {
     setSearchedData(value);
     setLinkClicked(true);
   };
+  const goToCart = () => {
+    if (
+      !(Object.keys(userProfile).length === 0 &&
+      userProfile.constructor === Object)
+    ) {
+      navigate("/cart");
+    }
+    
+  };
+  const goToWishlist = () => {
+    if (
+      !(Object.keys(userProfile).length === 0 &&
+      userProfile.constructor === Object)
+    ) {
+      navigate("/wishlist");
+    }
+    
+  };
 
   const handleLogout = () => {
     dispatch(userLogout());
@@ -74,15 +90,11 @@ function NavBarComponet() {
           </Col>
           <Col>
             <div className="d-flex justify-content-end">
-              <Button variant="light">
-                <Link className="link" to="/wishlist">
-                  <WishListIcon />
-                </Link>
+              <Button variant="light" onClick={goToWishlist}>
+                <WishListIcon />
               </Button>
-              <Button variant="light">
-                <Link className="link" to="/cart">
-                  <CartIcon />
-                </Link>
+              <Button variant="light" onClick={goToCart}>
+                <CartIcon />
               </Button>
               <Dropdown>
                 <Dropdown.Toggle variant="light" id="dropdown-basic">

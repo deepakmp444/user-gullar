@@ -1,6 +1,15 @@
 import { useNavigate, useParams } from "react-router-dom";
 import ImageGallery from "react-image-gallery";
-import { Button, Col, Container, Form, Row, Tab,Tabs,Modal } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Row,
+  Tab,
+  Tabs,
+  Modal,
+} from "react-bootstrap";
 import CartIcon from "../components/Icons/CartIcon";
 import WishListIcon from "../components/Icons/WishListIcon";
 import { useDispatch, useSelector } from "react-redux";
@@ -171,7 +180,6 @@ function Product() {
             color: productColor,
             price: productPrice,
             mrp: productMRP,
-            reviewStatus: false,
           },
         ])
       );
@@ -189,7 +197,9 @@ function Product() {
     <Container style={{ marginTop: "70px" }}>
       {Object.keys(singleProduct).length === 0 &&
       singleProduct.constructor === Object ? (
-        <h1 className="text-center">Loading...</h1>
+        <h1 className="text-center" style={{ marginTop: "120px" }}>
+          Loading...
+        </h1>
       ) : (
         <>
           <Row>
@@ -211,9 +221,7 @@ function Product() {
               <div className="fontsize40">{singleProduct.productHeading}</div>
               <div>{singleProduct.productSubheading}</div>
               <div className="d-flex">
-                <div className="text-success">
-                  Free delivery
-                </div>
+                <div className="text-success">Free delivery</div>
               </div>
               <div className="fontsize20 mb-3 text-success">
                 Price <strong>{productPrice}</strong>{" "}

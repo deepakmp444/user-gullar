@@ -22,7 +22,10 @@ function OrderHistory() {
       <Row style={{ marginTop: "120px" }}>
         <Col sm={2}></Col>
         <Col sm={8}>
-        <h3 className="mb-3">Your Orders</h3>
+          <h3 className="mb-3">Your Orders</h3>
+          {orderList.length === 0 && (
+            <h6 className="text-center">No ordered</h6>
+          )}
           {orderList.map((value, index) => {
             return <OrderCard key={index} value={value} />;
           })}
