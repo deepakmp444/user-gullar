@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
+import { Col, Container, Row, Button, Card, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { createAccount } from "../store/features/userSlice";
 
 function CreateAccount() {
   const { accountCreated, error } = useSelector((state) => state.user);
-  console.log("error:", error);
-  console.log("accountCreated:", accountCreated);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({

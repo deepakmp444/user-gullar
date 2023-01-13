@@ -14,23 +14,16 @@ import ReviewModalForm from "./ReviewModalForm";
 function OrderCard({ value }) {
   const {
     updateReviewStatus,
-    updateReviewStatusError,
     createdReviewStatus,
-    createdReviewStatusError,
     deleteReviewStatus,
-    deleteReviewStatusError,
     singleReviewForUpdate,
   } = useSelector((state) => state.review);
 
   const { userProfile } = useSelector((state) => state.user);
-  console.log("singleReviewForUpdate:", singleReviewForUpdate);
-
   const [show, setShow] = useState(false);
   const [userRating, setUserRating] = useState("");
   const [userDescriptions, setUserDescriptions] = useState("");
   const [productId, setProductId] = useState("");
-
-  // console.log('singleReviewForUpdate:', singleReviewForUpdate)
 
   const dispatch = useDispatch();
 
@@ -62,7 +55,6 @@ function OrderCard({ value }) {
     setShow(false);
     dispatch(clearGetReviewFromOrderProductUser());
   };
-  const handleShow = () => setShow(true);
 
   const handleDeleteReview = (reviewId) => {
     setShow(false);
@@ -93,9 +85,6 @@ function OrderCard({ value }) {
         userId: userProfile.id,
       })
     );
-    // console.log('productId:', productId)
-    // console.log('userProfile.id:', userProfile.id)
-    // console.log('value.id:', value.id)
   };
 
   const showModalUpdateReview = (id) => {

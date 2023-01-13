@@ -4,8 +4,6 @@ import {
   Card,
   Col,
   Container,
-  Form,
-  InputGroup,
   Row,
 } from "react-bootstrap";
 import { useCookies } from "react-cookie";
@@ -117,9 +115,7 @@ function BuyNow() {
             </div>
             <AddressForm hideButton="true" />
           </div>
-          <div>
-            <h5 className="text-center">OR</h5>
-          </div>
+
           {address.map((value, index) => {
             return (
               <AddressCard key={index} value={value} deleteButton="false" />
@@ -128,17 +124,15 @@ function BuyNow() {
         </Col>
         <Col sm={4}>
           <Card className="p-4 mb-2" style={{ backgroundColor: "#f2f2f2" }}>
-            <div>Have coupon?</div>
-            <div>
-              <InputGroup className="mb-3">
-                <Form.Control
-                  placeholder="Coupon Code"
-                  aria-label="coupon"
-                  aria-describedby="coupon"
-                />
-                <button className="btn btn-primary">Apply</button>
-              </InputGroup>
-            </div>
+          <strong>Products</strong>
+            {buyNowProduct.map((value, index) => {
+              return (
+                <div key={index} className="d-flex mt-2">
+                  <img src={value.imgUrl} className="rounded" alt="" height="50" width="50" />
+                  <div className="ms-2">{value.heading}</div>        
+                </div>
+              );
+            })}
           </Card>
           <Card className="p-4 mb-5" style={{ backgroundColor: "#f2f2f2" }}>
             <div className="d-flex justify-content-between">

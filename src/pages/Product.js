@@ -1,10 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import ImageGallery from "react-image-gallery";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
-import Modal from "react-bootstrap/Modal";
-import Star from "../components/Icons/Star";
+import { Button, Col, Container, Form, Row, Tab,Tabs,Modal } from "react-bootstrap";
 import CartIcon from "../components/Icons/CartIcon";
 import WishListIcon from "../components/Icons/WishListIcon";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +22,6 @@ import {
 function Product() {
   const { name, id } = useParams();
   const { singleProduct } = useSelector((state) => state.product);
-  const { buyNowProduct } = useSelector((state) => state.order);
   const { userProfile } = useSelector((state) => state.user);
   const { wishlistCreatedMessage, wishlistCreatedMessageStatus } = useSelector(
     (state) => state.wishlist
@@ -218,25 +213,11 @@ function Product() {
               <div className="fontsize40">{singleProduct.productHeading}</div>
               <div>{singleProduct.productSubheading}</div>
               <div className="d-flex">
-                <div>
-                  <Star />
-                </div>
-                <div className="ms-2" style={{ marginTop: "2px" }}>
-                  {singleProduct.averageRating}
-                </div>
-                <div className="d-flex ms-4">
-                  <div>
-                    <CartIcon height="16" width="16" />
-                  </div>
-                  <div className="ms-1" style={{ marginTop: "2px" }}>
-                    {singleProduct.totalOrder} orders
-                  </div>
-                </div>
-                <div className="ms-3 text-success" style={{ marginTop: "3px" }}>
+                <div className="text-success">
                   Free delivery
                 </div>
               </div>
-              <div className="fontsize20 mt-3 mb-3 text-success">
+              <div className="fontsize20 mb-3 text-success">
                 Price <strong>{productPrice}</strong>{" "}
                 <del className="text-danger ms-3">
                   MRP <strong>{productMRP}</strong>

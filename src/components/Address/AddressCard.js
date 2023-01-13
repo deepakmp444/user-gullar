@@ -44,6 +44,9 @@ function AddressCard({ value, deleteButton = "true" }) {
 
   return (
     <>
+      <div>
+        <h5 className="text-center">OR</h5>
+      </div>
       <Card className="p-4 mb-5" style={{ backgroundColor: "#f2f2f2" }}>
         <div className="d-flex">
           <div>

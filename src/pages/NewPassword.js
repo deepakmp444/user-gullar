@@ -1,22 +1,16 @@
-import { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
+import { useState } from "react";
+import { Col, Container, Row ,Button, Card, Form} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
-  userForgotPassword,
   userPasswordChange,
 } from "../store/features/userSlice";
 
 function NewPassword() {
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
-
   const { id } = useParams();
-  console.log("id:", id);
-
+  
   const { PasswordChangeInfo, PasswordChangeInfoError } = useSelector(
     (state) => state.user
   );

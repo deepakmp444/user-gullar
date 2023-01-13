@@ -1,16 +1,14 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
   Col,
   Container,
-  Form,
   Modal,
   Row,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import image1 from "../assests/product/bannerv1.png";
 import MinusIcon from "../components/Icons/MinusIcon";
 import PlusIcon from "../components/Icons/PlusIcon";
 import {
@@ -23,9 +21,7 @@ import { gotoProductBucket } from "../store/features/orderSlice";
 
 function Cart() {
   const navigate = useNavigate();
-
   const { buyNowProduct } = useSelector((state) => state.order);
-  console.log("buyNowProduct:", buyNowProduct);
   const { cartList, deletedCartStatus } = useSelector(
     (state) => state.cartList
   );

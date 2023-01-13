@@ -4,13 +4,11 @@ import {
   Card,
   Col,
   Container,
-  Form,
   Modal,
   Row,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import image1 from "../assests/product/bannerv1.png";
 import {
   deleteUserWishlist,
   fetchWishlist,
@@ -20,8 +18,6 @@ function Wishlist() {
     (state) => state.wishlist
   );
   const [showDelete, setShowDelete] = useState(false);
-
-  console.log("wishlist:", wishlist);
   const dispatch = useDispatch();
 
   useEffect(() => {

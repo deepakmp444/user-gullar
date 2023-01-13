@@ -17,7 +17,7 @@ function Setting() {
   }, [dispatch]);
 
   return (
-    <Container style={{ marginTop: "100px" }}>
+    <Container style={{ marginTop: "120px" }}>
       <div className="center">
         <Button
           className={

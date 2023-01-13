@@ -1,14 +1,8 @@
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import {
   Col,
   Container,
   Row,
-  Accordion,
-  Form,
-  Card,
-  Button,
-  DropdownButton,
-  Dropdown,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
@@ -16,9 +10,7 @@ import { fetchProductList } from "../store/features/productSlice";
 import "../styles/productList.css";
 function ProductList() {
   const { name } = useParams();
-  console.log("name:", name);
   const productList = useSelector((state) => state.product.productList);
-  console.log("productList:", productList);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,7 +23,7 @@ function ProductList() {
         <Row style={{ marginTop: "80px" }}>
           <Col sm={12} className="heightFromTop">
             {productList.length === 0 ? (
-              <h1>Loading ...</h1>
+              <h1 className="text-center mt-5">Loading ...</h1>
             ) : (
               <>
                 <div className="text-muted" style={{ fontSize: "20px" }}>
