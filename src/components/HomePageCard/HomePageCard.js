@@ -12,24 +12,30 @@ import ProfessionalShirt from "../../assests/Home/ProfessionalShirtPoster.png";
 import Hoodie from "../../assests/Home/HoodiePoster.png";
 import Shoe from "../../assests/Home/ShoeLanding.png";
 import { Link } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 function HomePageCard() {
   return (
     <Container>
-      <Row>
-        <Col>
+      <div className="d-flex justify-content-center">
+        <div className="me-5">
           <Link to="/product/jeans">
-            <img
-              className="mx-auto d-block TwoImgHead"
+            <LazyLoadImage
+              className="heightOfImg widthOfImg"
               src={WomenJean}
-              alt=""
+              effect="blur"
             />
           </Link>
-        </Col>
-        <Col>
-          <img src={MenTShirt} className="mx-auto d-block TwoImgHead" alt="" />
-        </Col>
-      </Row>
+        </div>
+        <div>
+          <LazyLoadImage
+            src={MenTShirt}
+            className="heightOfImg widthOfImg"
+            effect="blur"
+          />
+        </div>
+      </div>
       <Row>
         <Col>
           <img src={Goggle} className="mx-auto d-block TwoImgHead" alt="" />

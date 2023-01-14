@@ -4,6 +4,12 @@
   .TwoImgHead {
     height: 200px;
   }
+  .heightOfImg {
+    height: 200px;
+  }
+  .widthOfImg {
+    width: 150px;
+  }
 }
 
 /* Desktop screen  */
@@ -11,5 +17,11 @@
 @media only screen and (min-width: 600px) {
   .TwoImgHead {
     height: 500px;
+  }
+  .heightOfImg {
+    height: 400px;
+  }
+  .widthOfImg {
+    width: 330px;
   }
 }
