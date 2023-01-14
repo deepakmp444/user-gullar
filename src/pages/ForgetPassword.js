@@ -36,7 +36,7 @@ function ForgotPassword() {
   };
   return (
     <Container>
-      <Row style={{ marginTop: "100px" }}>
+      <Row style={{ marginTop: "120px" }}>
         <Col sm={4}></Col>
         <Col sm={4}>
           <Card className="shadow-sm">

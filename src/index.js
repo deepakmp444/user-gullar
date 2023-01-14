@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import store from "./store";
 import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-lazy-load-image-component/src/effects/blur.css";
 import "./styles/global.css";
 import axios from "axios";
 axios.defaults.withCredentials = true;

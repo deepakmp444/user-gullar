@@ -7,6 +7,7 @@ const initialState = {
   productLoading: true,
   error: "",
   singleProduct: {},
+  singleProductErrorStatus: false,
   updated: false,
   deleted: false,
 };
@@ -124,17 +125,16 @@ const productSlice = createSlice({
     builder.addCase(fetchProductById.pending, (state) => {
       state.productLoading = true;
       state.singleProduct = {};
-      state.error = "";
+      state.singleProductErrorStatus = false;
     });
-
     builder.addCase(fetchProductById.fulfilled, (state, action) => {
       state.productLoading = false;
-      state.error = "";
+      state.singleProductErrorStatus = false;
       state.singleProduct = action.payload;
     });
     builder.addCase(fetchProductById.rejected, (state, action) => {
       state.productLoading = true;
-      state.error = action.error.message;
+      state.singleProductErrorStatus = true;
       state.singleProduct = {};
     });
   },

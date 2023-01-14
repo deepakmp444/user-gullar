@@ -1,4 +1,4 @@
-import { Col, Container, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import "../../styles/HomePageCard.css";
 import MenTShirt from "../../assests/Home/T-Shirt_landing.png";
 import WomenJean from "../../assests/Home/Jeans_Landing.png";
@@ -13,22 +13,21 @@ import Hoodie from "../../assests/Home/HoodiePoster.png";
 import Shoe from "../../assests/Home/ShoeLanding.png";
 import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import "react-lazy-load-image-component/src/effects/blur.css";
 
 function HomePageCard() {
   return (
     <Container>
-      <div className="d-flex justify-content-center">
-        <div className="me-5">
+      <div className="center">
+        <div className="">
           <Link to="/product/jeans">
             <LazyLoadImage
-              className="heightOfImg widthOfImg"
+              className="heightOfImg widthOfImg me-5"
               src={WomenJean}
               effect="blur"
             />
           </Link>
         </div>
-        <div>
+        <div className="">
           <LazyLoadImage
             src={MenTShirt}
             className="heightOfImg widthOfImg"
@@ -36,38 +35,73 @@ function HomePageCard() {
           />
         </div>
       </div>
-      <Row>
-        <Col>
-          <img src={Goggle} className="mx-auto d-block TwoImgHead" alt="" />
-        </Col>
-        <Col>
-          <img src={Jack} className="mx-auto d-block TwoImgHead" alt="" />
-        </Col>
-        <Col>
-          <img src={Blazers} className="mx-auto d-block TwoImgHead" alt="" />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <img src={Coat} className="mx-auto d-block TwoImgHead" alt="" />
-        </Col>
-        <Col>
-          <img src={Sweater} className="mx-auto d-block TwoImgHead" alt="" />
-        </Col>
-        <Col>
-          <img src={Tops} className="mx-auto d-block TwoImgHead" alt="" />
-        </Col>
-      </Row>
 
-      <Row className="mt-2">
-        <img src={ProfessionalShirt} alt="" />
-      </Row>
-      <Row className="mt-2">
-        <img src={Shoe} alt="" />
-      </Row>
-      <Row className="mt-2">
-        <img src={Hoodie} alt="" />
-      </Row>
+      <div className="flex-container mt-3 flex-container-side">
+        <div className="item">
+          <LazyLoadImage
+            src={Goggle}
+            className="heightOfImg widthOfImg"
+            effect="blur"
+          />
+        </div>
+        <div className="item">
+          <LazyLoadImage
+            src={Jack}
+            className="heightOfImg widthOfImg"
+            effect="blur"
+          />
+        </div>
+        <div className="item">
+          <LazyLoadImage
+            src={Blazers}
+            className="heightOfImg widthOfImg"
+            effect="blur"
+          />
+        </div>
+        <div className="item">
+          <LazyLoadImage
+            src={Coat}
+            className="heightOfImg widthOfImg"
+            effect="blur"
+          />
+        </div>
+        <div className="item">
+          <LazyLoadImage
+            src={Sweater}
+            className="heightOfImg widthOfImg"
+            effect="blur"
+          />
+        </div>
+        <div className="item">
+          <LazyLoadImage
+            src={Tops}
+            className="heightOfImg widthOfImg"
+            effect="blur"
+          />
+        </div>
+      </div>
+
+      <div className="mt-2">
+        <LazyLoadImage
+          src={ProfessionalShirt}
+          className="heightOfBigImg widthOfBigImg"
+          effect="blur"
+        />
+      </div>
+      <div className="mt-2">
+        <LazyLoadImage
+          src={Shoe}
+          className="heightOfBigImg widthOfBigImg"
+          effect="blur"
+        />
+      </div>
+      <div className="mt-2">
+        <LazyLoadImage
+          src={Hoodie}
+          className="heightOfBigImg widthOfBigImg"
+          effect="blur"
+        />
+      </div>
     </Container>
   );
 }

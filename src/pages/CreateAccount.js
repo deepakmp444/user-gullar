@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { createAccount } from "../store/features/userSlice";
 
 function CreateAccount() {
-  const { accountCreated, error } = useSelector((state) => state.user);
+  const { accountCreated } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -45,16 +45,11 @@ function CreateAccount() {
   return (
     <>
       <Container>
-        <Row style={{ marginTop: "100px" }}>
+        <Row style={{ marginTop: "120px" }}>
           <Col sm={4}></Col>
           <Col sm={4}>
             <Card className="shadow-sm">
               <Card.Header>Gullar</Card.Header>
-              {error && (
-                <h6 className="text-center text-danger mt-3">
-                  <kbd>{error}</kbd>
-                </h6>
-              )}
               <Card.Body>
                 <Form>
                   <Form.Group className="mb-3" controlId="formBasicName">

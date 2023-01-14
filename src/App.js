@@ -17,7 +17,6 @@ import ProductList from "./pages/ProductList";
 import Setting from "./pages/Setting";
 import UserEmailVerify from "./pages/UserEmailVerify";
 import Wishlist from "./pages/Wishlist";
-
 function App() {
   return (
     <div>
