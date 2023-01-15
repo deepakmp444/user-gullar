@@ -28,8 +28,6 @@ function CarouselComponent() {
           className="heightOfBigImg widthOfBigImg"
           effect="blur"
         />
-
-        <img className="d-block w-100" src={Carousel3} alt="First slide" />
       </Carousel.Item>
       <Carousel.Item>
         <LazyLoadImage
